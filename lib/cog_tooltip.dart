@@ -4,7 +4,6 @@ export './src/widgets/tooltip_owner.dart';
 export './src/models/coach_button_model.dart';
 export './src/models/coach_model.dart';
 import 'package:cog_tooltip/cog_tooltip.dart';
-import 'package:cog_tooltip/src/widgets/widget_card.dart';
 import 'package:cog_tooltip/src/widgets/widget_main.dart';
 import 'package:flutter/material.dart';
 
@@ -33,6 +32,9 @@ class CogTooltip {
   /// Negative value => sift to left
   final double lrShift;
 
+  final int titleColor;
+  final int subTitleColor;
+
   double x = 0, y = 0, h = 0, w = 0;
   OverlayEntry? overlayBlock;
   OverlayEntry? overlayEntry;
@@ -52,6 +54,8 @@ class CogTooltip {
     this.onTapSpecified,
     this.cogPosition = 0.0,
     this.lrShift = 0.0,
+    this.titleColor = 0xFF000000,
+    this.subTitleColor = 0xFF000000,
   });
 
   OverlayEntry buildOverlayBlock() {
@@ -77,6 +81,8 @@ class CogTooltip {
         buttonOptions: buttonOptions ?? CoachButtonOptions(),
         cogPosition: cogPosition,
         lrShift: lrShift,
+        titleColor: titleColor,
+        subTitleColor: subTitleColor,
         model: initialList[currentIndex],
         onTapSpecified: onTapSpecified,
         onSkip: skip == null

@@ -12,6 +12,8 @@ class WidgetCard extends StatefulWidget {
   final Duration duration;
   final double cogPosition;
   final double lrShift;
+  final int titleColor;
+  final int subTitleColor;
 
   const WidgetCard({
     Key? key,
@@ -28,6 +30,8 @@ class WidgetCard extends StatefulWidget {
     this.onTapNext,
     this.cogPosition = 0.0,
     this.lrShift = 0.0,
+    this.titleColor = 0xFF000000,
+    this.subTitleColor = 0xFF000000,
   }) : super(key: key);
 
   @override
@@ -227,10 +231,9 @@ class WidgetCardState extends State<WidgetCard> {
                                           const EdgeInsets.only(bottom: 5.0),
                                       child: Text(
                                         '${widget.model.title}',
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           fontSize: 16.0,
-                                          color: Color(
-                                              0xFF4421A4), //TODO: Set as changeable. Title color
+                                          color: Color(widget.titleColor),
                                           fontWeight: FontWeight.w700,
                                           letterSpacing: 2.0,
                                         ),
@@ -241,11 +244,13 @@ class WidgetCardState extends State<WidgetCard> {
                                             '${widget.model.subtitle!.first}',
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 100,
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               fontSize: 13.0,
                                               fontWeight: FontWeight.w400,
                                               letterSpacing: 0.5,
                                               height: 1.4,
+                                              color:
+                                                  Color(widget.subTitleColor),
                                             ),
                                           )
                                         : SizedBox(

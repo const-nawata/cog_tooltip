@@ -15,6 +15,8 @@ class WidgetMain extends StatefulWidget {
   final Color veilColor;
   final double cogPosition;
   final double lrShift;
+  final int titleColor;
+  final int subTitleColor;
 
   const WidgetMain({
     Key? key,
@@ -33,6 +35,8 @@ class WidgetMain extends StatefulWidget {
     this.veilColor = const Color(0xAA000000),
     this.cogPosition = 0.0,
     this.lrShift = 0.0,
+    this.titleColor = 0xFF000000,
+    this.subTitleColor = 0xFF000000,
   }) : super(key: key);
 
   @override
@@ -169,6 +173,8 @@ class WidgetMainState extends State<WidgetMain> {
           buttonOptions: widget.buttonOptions,
           cogPosition: widget.cogPosition,
           lrShift: widget.lrShift,
+          titleColor: widget.titleColor,
+          subTitleColor: widget.subTitleColor,
 
           // onSkip: widget.onSkip,
 
