@@ -22,8 +22,13 @@ class CogTooltip {
   final Color veilColor;
   final Function()? onTapNext;
   final Function()? onTapSpecified;
-  final PointerPosition cogPosition;
 
+  /// Pointer position
+  /// Positive value => sift to right
+  /// Negative value => sift to left
+  final double cogPosition;
+
+  /// Tooltip shift
   /// Positive value => sift to right
   /// Negative value => sift to left
   final double lrShift;
@@ -45,7 +50,7 @@ class CogTooltip {
     this.veilColor = const Color(0xAA000000),
     this.onTapNext,
     this.onTapSpecified,
-    this.cogPosition = PointerPosition.center,
+    this.cogPosition = 0.0,
     this.lrShift = 0.0,
   });
 

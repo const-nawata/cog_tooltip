@@ -10,7 +10,7 @@ class WidgetCard extends StatefulWidget {
   final Function()? onSkip;
   final Function()? onTapNext;
   final Duration duration;
-  final PointerPosition cogPosition;
+  final double cogPosition;
   final double lrShift;
 
   const WidgetCard({
@@ -26,7 +26,7 @@ class WidgetCard extends StatefulWidget {
     this.child,
     this.onSkip,
     this.onTapNext,
-    this.cogPosition = PointerPosition.center,
+    this.cogPosition = 0.0,
     this.lrShift = 0.0,
   }) : super(key: key);
 
@@ -199,7 +199,7 @@ class WidgetCardState extends State<WidgetCard> {
                       if (!isAbove)
                         _tooltipCog(
                           isAbove,
-                          position: widget.cogPosition,
+                          cogPosition: widget.cogPosition,
                         ),
                       Container(
                         width: _maxWidth,
@@ -320,7 +320,7 @@ class WidgetCardState extends State<WidgetCard> {
                       if (isAbove)
                         _tooltipCog(
                           isAbove,
-                          position: widget.cogPosition,
+                          cogPosition: widget.cogPosition,
                         ),
                     ],
                   ),
@@ -335,16 +335,15 @@ class WidgetCardState extends State<WidgetCard> {
 
   Widget _tooltipCog(
     bool isTop, {
-    PointerPosition position = PointerPosition.center,
+    double cogPosition = 0.0,
   }) {
     double pntLeftPad = 0.0;
     double pntRightPad = 0.0;
-    double shift = _maxWidth * 0.78;
 
-    if (position == PointerPosition.right) {
-      pntLeftPad = shift;
-    } else if (position == PointerPosition.left) {
-      pntRightPad = shift;
+    if (cogPosition > 0.0) {
+      pntLeftPad = cogPosition;
+    } else if (cogPosition < 0.0) {
+      pntRightPad = cogPosition;
     }
 
     return Padding(
@@ -357,7 +356,7 @@ class WidgetCardState extends State<WidgetCard> {
   }
 }
 
-enum PointerPosition { left, center, right }
+// enum PointerPosition { left, center, right }
 
 class MyBehavior extends ScrollBehavior {
   @override

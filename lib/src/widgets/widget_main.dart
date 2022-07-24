@@ -13,7 +13,7 @@ class WidgetMain extends StatefulWidget {
   final Function()? onTapNext;
   final Function()? onTapSpecified;
   final Color veilColor;
-  final PointerPosition cogPosition;
+  final double cogPosition;
   final double lrShift;
 
   const WidgetMain({
@@ -31,7 +31,7 @@ class WidgetMain extends StatefulWidget {
     this.buttonOptions,
     required this.model,
     this.veilColor = const Color(0xAA000000),
-    this.cogPosition = PointerPosition.center,
+    this.cogPosition = 0.0,
     this.lrShift = 0.0,
   }) : super(key: key);
 
