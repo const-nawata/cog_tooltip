@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 ///
 enum CoachMakerControl { none, next, close }
 
-class CoachMaker {
+class CogTooltip {
   ///first duration delay
   ///
   final Duration firstDelay;
@@ -62,7 +62,7 @@ class CoachMaker {
 
   ///constructor
   ///
-  CoachMaker(
+  CogTooltip(
       this.context, {
         required this.initialList,
         this.firstDelay = const Duration(milliseconds: 1),
