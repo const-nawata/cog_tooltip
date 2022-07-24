@@ -1,5 +1,6 @@
 library cog_tooltip;
 
+export './src/widgets/tooltip_owner.dart';
 export './src/models/coach_button_model.dart';
 export './src/models/coach_model.dart';
 import 'package:cog_tooltip/cog_tooltip.dart';
