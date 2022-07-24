@@ -10,7 +10,7 @@ class WidgetCard extends StatefulWidget {
   final Function()? onSkip;
   final Function()? onTapNext;
   final Duration duration;
-  final PointerPosition position;
+  final PointerPosition cogPosition;
   final double lrShift;
 
   const WidgetCard({
@@ -26,7 +26,7 @@ class WidgetCard extends StatefulWidget {
     this.child,
     this.onSkip,
     this.onTapNext,
-    this.position = PointerPosition.center,
+    this.cogPosition = PointerPosition.center,
     this.lrShift = 0.0,
   }) : super(key: key);
 
@@ -197,9 +197,9 @@ class WidgetCardState extends State<WidgetCard> {
                   child: Column(
                     children: [
                       if (!isAbove)
-                        _tooltipPointer(
+                        _tooltipCog(
                           isAbove,
-                          position: widget.position,
+                          position: widget.cogPosition,
                         ),
                       Container(
                         width: _maxWidth,
@@ -318,9 +318,9 @@ class WidgetCardState extends State<WidgetCard> {
                         ),
                       ),
                       if (isAbove)
-                        _tooltipPointer(
+                        _tooltipCog(
                           isAbove,
-                          position: widget.position,
+                          position: widget.cogPosition,
                         ),
                     ],
                   ),
@@ -333,7 +333,7 @@ class WidgetCardState extends State<WidgetCard> {
     );
   }
 
-  Widget _tooltipPointer(
+  Widget _tooltipCog(
     bool isTop, {
     PointerPosition position = PointerPosition.center,
   }) {
