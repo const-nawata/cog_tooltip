@@ -343,7 +343,7 @@ class WidgetCardState extends State<WidgetCard> {
     if (cogPosition > 0.0) {
       pntLeftPad = cogPosition;
     } else if (cogPosition < 0.0) {
-      pntRightPad = cogPosition;
+      pntRightPad = -cogPosition;
     }
 
     return Padding(
