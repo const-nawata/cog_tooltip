@@ -1,4 +1,3 @@
-
 import 'package:cog_tooltip/cog_tooltip.dart';
 import 'package:flutter/material.dart';
 
@@ -11,102 +10,68 @@ class WidgetCard extends StatefulWidget {
   final Function()? onSkip;
   final Function()? onTapNext;
   final Duration duration;
+  final PointerPosition position;
+  final double lrShift;
 
-  const WidgetCard(
-      {Key? key,
-      required this.enable,
-      required this.x,
-      required this.y,
-      required this.h,
-      required this.w,
-      required this.model,
-      required this.duration,
-      this.buttonOptions,
-      this.child,
-      this.onSkip,
-      this.onTapNext})
-      : super(key: key);
+  const WidgetCard({
+    Key? key,
+    required this.enable,
+    required this.x,
+    required this.y,
+    required this.h,
+    required this.w,
+    required this.model,
+    required this.duration,
+    this.buttonOptions,
+    this.child,
+    this.onSkip,
+    this.onTapNext,
+    this.position = PointerPosition.center,
+    this.lrShift = 0.0,
+  }) : super(key: key);
 
   @override
   WidgetCardState createState() => WidgetCardState();
 }
 
 class WidgetCardState extends State<WidgetCard> {
-  ///top position
-  ///
   double top = 0;
-
-  ///height
-  ///
   double h = 0;
-
-  ///width
-  ///
   double w = 0;
-
-  ///horizontal
-  ///
   double x = 0;
-
-  ///vertical
-  ///
   double y = 0;
-
-  ///height card
-  ///
   double hCard = 0;
-
-  ///width card
-  ///
   double wCard = 0;
-
-  ///current page card
-  ///
   int currentPage = 0;
 
   PageController pageController = PageController();
 
-  ///init state
-  ///
   @override
   void initState() {
     super.initState();
     start();
   }
 
-  ///dispose
-  ///
   @override
   void dispose() {
     pageController.dispose();
     super.dispose();
   }
 
-  ///start method (animation, show, etc)
-  ///
   void start() async {
     Future.delayed(Duration.zero, () {
-      ///card global key attribute
-      ///
-      RenderBox box = GlobalObjectKey('pointWidget1234567890')
+      RenderBox box = const GlobalObjectKey('pointWidget1234567890')
           .currentContext!
           .findRenderObject() as RenderBox;
 
-      ///set attribute to variables
-      ///
       setState(() {
         hCard = box.size.height;
         wCard = box.size.width;
       });
     });
 
-    ///delay 1.5 seconds
-    ///
-    // await Future.delayed(Duration(milliseconds: 1005));
     await Future.delayed(widget.duration);
 
-    ///set position
-    ///
     setState(() {
       x = widget.x;
       y = widget.y;
@@ -116,21 +81,15 @@ class WidgetCardState extends State<WidgetCard> {
     });
   }
 
-  ///scroll listview method
-  ///
   void scrollToIndex({int index = 0, double? manualHeight}) {
     if (manualHeight != null) {
       widget.model.scrollOptions!.scrollController!.animateTo(manualHeight,
           duration: widget.duration, curve: Curves.ease);
     } else {
-      /// if index == 0 scroll to top
-      ///
       if (index == 0) {
         widget.model.scrollOptions!.scrollController!
             .animateTo(0, duration: widget.duration, curve: Curves.ease);
       } else {
-        ///get first widget attribute of list
-        ///
         RenderBox box = GlobalObjectKey(widget.model.initial!)
             .currentContext!
             .findRenderObject() as RenderBox;
@@ -143,15 +102,20 @@ class WidgetCardState extends State<WidgetCard> {
     }
   }
 
+  double _maxWidth = 250.0;
+
   @override
   Widget build(BuildContext context) {
-    bool _isAbove =
+    bool isAbove =
         (y + h + hCard + (widget.model.subtitle!.length == 1 ? 0 : 50) >
             MediaQuery.of(context).size.height);
 
+    _maxWidth =
+        (widget.model.maxWidth ?? MediaQuery.of(context).size.width - 80.0);
+
     return Positioned(
-      left: 0.0,
-      top: _isAbove
+      left: widget.lrShift,
+      top: isAbove
           ? y - hCard - (widget.model.subtitle!.length == 1 ? 24 : 16)
           : y + h + 15,
       child: Material(
@@ -168,35 +132,19 @@ class WidgetCardState extends State<WidgetCard> {
             child: Align(
               alignment: widget.model.alignment!,
               child: Padding(
-                padding: EdgeInsets.only(left: 8, right: 8),
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 child: GestureDetector(
                   onTap: () async {
-                    ///if subtitle length = 1 or pageController has client
-                    ///
                     if (widget.model.subtitle!.length == 1 ||
                         pageController.hasClients) {
-                      ///if current page + 1 == total subtitle length
-                      ///
                       if (currentPage + 1 == widget.model.subtitle!.length) {
-                        ///if callback not null
-                        ///
                         if (widget.model.nextOnTapCallBack != null) {
-                          ///using if you want to run method before next step
-                          ///return boolean
-                          ///
                           bool result =
                               await widget.model.nextOnTapCallBack!.call();
 
-                          ///if callback return true
-                          ///
                           if (result) {
-                            ///next step
-                            ///
                             widget.onTapNext!();
 
-                            ///if page controller has client
-                            ///slide to 0
-                            ///
                             if (pageController.hasClients) {
                               pageController.animateToPage(
                                 0,
@@ -206,13 +154,8 @@ class WidgetCardState extends State<WidgetCard> {
                             }
                           }
                         } else {
-                          ///next step
-                          ///
                           widget.onTapNext!();
 
-                          ///if page controller has client
-                          ///slide to 0
-                          ///
                           if (pageController.hasClients) {
                             pageController.animateToPage(
                               0,
@@ -222,47 +165,27 @@ class WidgetCardState extends State<WidgetCard> {
                           }
                         }
 
-                        ///check if scroll options not null
-                        ///
                         if (widget.model.scrollOptions != null) {
-                          ///check if scroll options widget is last
-                          ///
                           if (widget.model.scrollOptions!.isLast == true) {
-                            ///if last scroll to top
-                            ///
-                            scrollToIndex(
-                              index: 0,
-                            );
+                            scrollToIndex(index: 0);
 
-                            ///delay 1 seconds
-                            ///
                             await Future.delayed(widget.duration);
                           } else {
-                            ///use manual height
-                            ///
                             if (widget.model.scrollOptions!.manualHeight !=
                                 null) {
-                              ///if not last, scroll to manual height
-                              ///
                               scrollToIndex(
                                   manualHeight:
                                       widget.model.scrollOptions!.manualHeight);
                             } else {
-                              ///if not last, scroll to index
-                              ///
                               scrollToIndex(
                                   index: widget
                                       .model.scrollOptions!.scrollToIndex!);
                             }
 
-                            ///delay 1 seconds
-                            ///
                             await Future.delayed(widget.duration);
                           }
                         }
                       } else {
-                        ///next page (card)
-                        ///
                         pageController.animateToPage(
                           currentPage + 1,
                           duration: widget.duration,
@@ -270,55 +193,63 @@ class WidgetCardState extends State<WidgetCard> {
                         );
                       }
                     }
-                    //   },
                   },
                   child: Column(
                     children: [
-                      if (!_isAbove)
-                        _tooltipPointer(_isAbove,
-                            position: PointerPosition.right),
+                      if (!isAbove)
+                        _tooltipPointer(
+                          isAbove,
+                          position: widget.position,
+                        ),
                       Container(
-                        width: widget.model.maxWidth == null
-                            ? MediaQuery.of(context).size.width - 80
-                            : widget.model.maxWidth,
-                        key: GlobalObjectKey('pointWidget1234567890'),
+                        width: _maxWidth,
+                        key: const GlobalObjectKey('pointWidget1234567890'),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(5),
+                          borderRadius: BorderRadius.circular(5.0),
                         ),
                         child: Padding(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(18.0),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              widget.model.header ?? SizedBox(),
+                              widget.model.header ?? const SizedBox(),
                               widget.model.header == null
-                                  ? SizedBox()
-                                  : SizedBox(width: 10),
+                                  ? const SizedBox()
+                                  : const SizedBox(width: 10.0),
                               Expanded(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      '${widget.model.title}',
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.black87,
-                                          fontWeight: FontWeight.bold),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 5.0),
+                                      child: Text(
+                                        '${widget.model.title}',
+                                        style: const TextStyle(
+                                          fontSize: 16.0,
+                                          color: Color(
+                                              0xFF4421A4), //TODO: Set as changeable. Title color
+                                          fontWeight: FontWeight.w700,
+                                          letterSpacing: 2.0,
+                                        ),
+                                      ),
                                     ),
                                     widget.model.subtitle!.length == 1
                                         ? Text(
                                             '${widget.model.subtitle!.first}',
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 100,
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.grey,
-                                                fontWeight: FontWeight.w500),
+                                            style: const TextStyle(
+                                              fontSize: 13.0,
+                                              fontWeight: FontWeight.w400,
+                                              letterSpacing: 0.5,
+                                              height: 1.4,
+                                            ),
                                           )
                                         : SizedBox(
-                                            height: 50,
+                                            height: 50.0,
                                             child: ScrollConfiguration(
                                               behavior: MyBehavior(),
                                               child: PageView.builder(
@@ -337,11 +268,11 @@ class WidgetCardState extends State<WidgetCard> {
                                                       maxLines: 3,
                                                       overflow:
                                                           TextOverflow.ellipsis,
-                                                      style: TextStyle(
-                                                          fontSize: 12,
-                                                          color: Colors.grey,
-                                                          fontWeight:
-                                                              FontWeight.w500),
+                                                      style: const TextStyle(
+                                                        fontSize: 13.0,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                      ),
                                                     );
                                                   }),
                                             ),
@@ -351,19 +282,20 @@ class WidgetCardState extends State<WidgetCard> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         widget.model.subtitle!.length == 1
-                                            ? SizedBox()
+                                            ? const SizedBox()
                                             : Row(
                                                 children: List.generate(
                                                     widget
                                                         .model.subtitle!.length,
                                                     (index) => Padding(
                                                           padding:
-                                                              EdgeInsets.only(
-                                                            right: 3,
+                                                              const EdgeInsets
+                                                                  .only(
+                                                            right: 3.0,
                                                           ),
                                                           child: Container(
-                                                            height: 5,
-                                                            width: 5,
+                                                            height: 5.0,
+                                                            width: 5.0,
                                                             decoration: BoxDecoration(
                                                                 color: index ==
                                                                         currentPage
@@ -385,7 +317,11 @@ class WidgetCardState extends State<WidgetCard> {
                           ),
                         ),
                       ),
-                      if (_isAbove) _tooltipPointer(_isAbove),
+                      if (isAbove)
+                        _tooltipPointer(
+                          isAbove,
+                          position: widget.position,
+                        ),
                     ],
                   ),
                 ),
@@ -401,20 +337,20 @@ class WidgetCardState extends State<WidgetCard> {
     bool isTop, {
     PointerPosition position = PointerPosition.center,
   }) {
-    double _pntLeftPad = 0.0;
-    double _pntRightPad = 0.0;
-    double _shift = 170.0;
+    double pntLeftPad = 0.0;
+    double pntRightPad = 0.0;
+    double shift = _maxWidth * 0.78;
 
     if (position == PointerPosition.right) {
-      _pntLeftPad = _shift;
+      pntLeftPad = shift;
     } else if (position == PointerPosition.left) {
-      _pntRightPad = _shift;
+      pntRightPad = shift;
     }
 
     return Padding(
-      padding: EdgeInsets.only(left: _pntLeftPad, right: _pntRightPad),
+      padding: EdgeInsets.only(left: pntLeftPad, right: pntRightPad),
       child: CustomPaint(
-        size: Size(25.0, 10.0),
+        size: const Size(25.0, 9.0),
         painter: TrianglePainter(isDown: isTop, color: Colors.white),
       ),
     );
@@ -439,12 +375,12 @@ class TrianglePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    Paint _paint = new Paint();
-    _paint.strokeWidth = 2.0;
-    _paint.color = color;
-    _paint.style = PaintingStyle.fill;
+    Paint paint = Paint();
+    paint.strokeWidth = 2.0;
+    paint.color = color;
+    paint.style = PaintingStyle.fill;
 
-    Path path = new Path();
+    Path path = Path();
     if (isDown) {
       path.moveTo(0.0, -1.0);
       path.lineTo(size.width, -1.0);
@@ -455,7 +391,7 @@ class TrianglePainter extends CustomPainter {
       path.lineTo(size.width, size.height + 1);
     }
 
-    canvas.drawPath(path, _paint);
+    canvas.drawPath(path, paint);
   }
 
   @override

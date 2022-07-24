@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:cog_tooltip/cog_tooltip.dart';
 import 'package:cog_tooltip/src/widgets/widget_card.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +11,10 @@ class WidgetMain extends StatefulWidget {
 
   final Function()? onSkip;
   final Function()? onTapNext;
+  final Function()? onTapSpecified;
   final Color veilColor;
+  final PointerPosition position;
+  final double lrShift;
 
   const WidgetMain({
     Key? key,
@@ -25,9 +27,12 @@ class WidgetMain extends StatefulWidget {
     this.duration,
     this.onSkip,
     this.onTapNext,
+    this.onTapSpecified,
     this.buttonOptions,
     required this.model,
     this.veilColor = const Color(0xAA000000),
+    this.position = PointerPosition.center,
+    this.lrShift = 0.0,
   }) : super(key: key);
 
   @override
@@ -35,40 +40,18 @@ class WidgetMain extends StatefulWidget {
 }
 
 class WidgetMainState extends State<WidgetMain> {
-  ///flag for show card
-  ///
   bool enable = false;
-
-  ///height
-  ///
   double h = 0;
-
-  ///width
-  ///
   double w = 0;
-
-  ///horizontal
-  ///
   double x = 0;
-
-  ///vertical
-  ///
   double y = 0;
-
-  ///timer for animation hole overlay
-  ///
   Timer? timer;
 
-  ///init state
-  ///
   @override
   void initState() {
     super.initState();
     start();
   }
-
-  ///dispose
-  ///
 
   late Duration _duration;
 
@@ -80,12 +63,10 @@ class WidgetMainState extends State<WidgetMain> {
     super.dispose();
   }
 
-  ///start method (animation, show, etc)
-  ///
   void start() async {
-    _duration = widget.duration ?? Duration(seconds: 1);
+    _duration = widget.duration ?? const Duration(seconds: 1);
 
-    await Future.delayed(Duration(milliseconds: 100));
+    await Future.delayed(const Duration(milliseconds: 100));
 
     setState(() {
       h = widget.h + (widget.padding * 2);
@@ -115,8 +96,6 @@ class WidgetMainState extends State<WidgetMain> {
       await Future.delayed(widget.duration!);
     }
 
-    ///show card
-    ///
     setState(() {
       enable = true;
     });
@@ -155,6 +134,10 @@ class WidgetMainState extends State<WidgetMain> {
                 curve: Curves.fastOutSlowIn,
                 child: GestureDetector(
                   onTap: () async {
+                    if (widget.onTapSpecified != null) {
+                      widget.onTapSpecified!.call();
+                    }
+
                     await _closeTooltip();
                   },
                   onHorizontalDragStart: (DragStartDetails d) async {
@@ -164,9 +147,11 @@ class WidgetMainState extends State<WidgetMain> {
                     height: h == 0 ? MediaQuery.of(context).size.height : h,
                     width: w == 0 ? MediaQuery.of(context).size.width : w,
                     decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius:
-                            BorderRadius.circular(widget.borderRadius)),
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(
+                        widget.borderRadius,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -182,6 +167,9 @@ class WidgetMainState extends State<WidgetMain> {
           enable: enable,
           model: widget.model,
           buttonOptions: widget.buttonOptions,
+          position: widget.position,
+          lrShift: widget.lrShift,
+
           // onSkip: widget.onSkip,
 
           onSkip: () async {
