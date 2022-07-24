@@ -2,7 +2,7 @@ library cog_tooltip;
 // CogTooltip
 
 
-export './src/widgets/widget_point.dart';
+export './src/widgets/tooltip_owner.dart';
 export './src/models/coach_button_model.dart';
 export './src/models/coach_model.dart';
 import 'package:cog_tooltip/cog_tooltip.dart';
