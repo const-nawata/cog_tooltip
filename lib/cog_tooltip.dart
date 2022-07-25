@@ -7,7 +7,7 @@ import 'package:cog_tooltip/cog_tooltip.dart';
 import 'package:cog_tooltip/src/widgets/entire_shell.dart';
 import 'package:flutter/material.dart';
 
-enum CoachMakerControl { none, next, close }
+// enum CoachMakerControl { none, next, close }
 
 class CogTooltip {
   final Duration firstDelay;
@@ -15,7 +15,7 @@ class CogTooltip {
   final List<CoachModel> initialList;
   final BuildContext context;
   final Function()? skip;
-  final CoachMakerControl nextStep;
+  // final CoachMakerControl nextStep;
   final CoachButtonOptions? buttonOptions;
   final double padding;
   final Color veilColor;
@@ -46,7 +46,7 @@ class CogTooltip {
     this.firstDelay = const Duration(milliseconds: 1),
     this.duration,
     this.skip,
-    this.nextStep = CoachMakerControl.next,
+    // this.nextStep = CoachMakerControl.next,
     this.buttonOptions,
     this.padding = 10.0,
     this.veilColor = const Color(0xAA000000),
@@ -94,17 +94,20 @@ class CogTooltip {
                 skip!();
               },
         onTapNext: () {
-          switch (nextStep) {
-            case CoachMakerControl.next:
-              nextOverlay();
-              break;
-            case CoachMakerControl.close:
-              removeOverlay();
-              break;
-            case CoachMakerControl.none:
-              break;
-            default:
-          }
+          nextOverlay();
+
+          //
+          // switch (nextStep) {
+          //   case CoachMakerControl.next:
+          //     nextOverlay();
+          //     break;
+          //   case CoachMakerControl.close:
+          //     removeOverlay();
+          //     break;
+          //   case CoachMakerControl.none:
+          //     break;
+          //   default:
+          // }
 
           if (onTapNext != null) {
             onTapNext!.call();
