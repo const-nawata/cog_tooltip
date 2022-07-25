@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class TooltipOwner extends StatelessWidget {
+class TooltipPointer extends StatelessWidget {
   final String initial;
   final Widget child;
-  const TooltipOwner({
+  const TooltipPointer({
     Key? key,
     required this.initial,
     required this.child,
