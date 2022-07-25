@@ -9,7 +9,7 @@ class EntireShell extends StatefulWidget {
   final CoachButtonOptions? buttonOptions;
   final Duration? duration;
 
-  final Function()? onSkip;
+  // final Function()? onSkip;
   final Function()? onTapNext;
   final Function()? onTapSpecified;
   final Color veilColor;
@@ -27,7 +27,7 @@ class EntireShell extends StatefulWidget {
     this.padding = 0.0,
     this.borderRadius = 0.0,
     this.duration,
-    this.onSkip,
+    // this.onSkip,
     this.onTapNext,
     this.onTapSpecified,
     this.buttonOptions,

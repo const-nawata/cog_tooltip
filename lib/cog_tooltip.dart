@@ -85,27 +85,13 @@ class CogTooltip {
         subTitleColor: subTitleColor,
         model: initialList[currentIndex],
         onTapSpecified: onTapSpecified,
-        onSkip: () {
-          removeOverlay();
-          overlayBlock?.remove();
-          overlayBlock = null;
-          // skip!();
-        },
+        // onSkip: () {
+        //   removeOverlay();
+        //   overlayBlock?.remove();
+        //   overlayBlock = null;
+        // },
         onTapNext: () {
           nextOverlay();
-
-          //
-          // switch (nextStep) {
-          //   case CoachMakerControl.next:
-          //     nextOverlay();
-          //     break;
-          //   case CoachMakerControl.close:
-          //     removeOverlay();
-          //     break;
-          //   case CoachMakerControl.none:
-          //     break;
-          //   default:
-          // }
 
           if (onTapNext != null) {
             onTapNext!.call();
