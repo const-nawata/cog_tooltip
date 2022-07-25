@@ -175,13 +175,9 @@ class EntireShellState extends State<EntireShell> {
           lrShift: widget.lrShift,
           titleColor: widget.titleColor,
           subTitleColor: widget.subTitleColor,
-
-          // onSkip: widget.onSkip,
-
           onSkip: () async {
             await _closeTooltip();
           },
-
           onTapNext: () async {
             await _closeTooltip();
           },

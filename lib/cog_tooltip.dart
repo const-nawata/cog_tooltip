@@ -14,7 +14,7 @@ class CogTooltip {
   final Duration? duration;
   final List<CoachModel> initialList;
   final BuildContext context;
-  final Function()? skip;
+  // final Function()? skip;
   // final CoachMakerControl nextStep;
   final CoachButtonOptions? buttonOptions;
   final double padding;
@@ -45,7 +45,7 @@ class CogTooltip {
     required this.initialList,
     this.firstDelay = const Duration(milliseconds: 1),
     this.duration,
-    this.skip,
+    // this.skip,
     // this.nextStep = CoachMakerControl.next,
     this.buttonOptions,
     this.padding = 10.0,
@@ -85,14 +85,12 @@ class CogTooltip {
         subTitleColor: subTitleColor,
         model: initialList[currentIndex],
         onTapSpecified: onTapSpecified,
-        onSkip: skip == null
-            ? null
-            : () {
-                removeOverlay();
-                overlayBlock?.remove();
-                overlayBlock = null;
-                skip!();
-              },
+        onSkip: () {
+          removeOverlay();
+          overlayBlock?.remove();
+          overlayBlock = null;
+          // skip!();
+        },
         onTapNext: () {
           nextOverlay();
 
