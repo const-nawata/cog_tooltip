@@ -3,7 +3,7 @@ import 'package:cog_tooltip/cog_tooltip.dart';
 import 'package:cog_tooltip/src/widgets/tooltip_body.dart';
 import 'package:flutter/material.dart';
 
-class WidgetMain extends StatefulWidget {
+class EntireShell extends StatefulWidget {
   final double x, y, h, w, padding, borderRadius;
   final CoachModel model;
   final CoachButtonOptions? buttonOptions;
@@ -18,7 +18,7 @@ class WidgetMain extends StatefulWidget {
   final int titleColor;
   final int subTitleColor;
 
-  const WidgetMain({
+  const EntireShell({
     Key? key,
     required this.x,
     required this.y,
@@ -40,10 +40,10 @@ class WidgetMain extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  WidgetMainState createState() => WidgetMainState();
+  EntireShellState createState() => EntireShellState();
 }
 
-class WidgetMainState extends State<WidgetMain> {
+class EntireShellState extends State<EntireShell> {
   bool enable = false;
   double h = 0;
   double w = 0;

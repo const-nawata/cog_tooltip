@@ -4,7 +4,7 @@ export 'package:cog_tooltip/src/widgets/tooltip_pointer.dart';
 export 'package:cog_tooltip/src/models/coach_button_model.dart';
 export 'package:cog_tooltip/src/models/coach_model.dart';
 import 'package:cog_tooltip/cog_tooltip.dart';
-import 'package:cog_tooltip/src/widgets/widget_main.dart';
+import 'package:cog_tooltip/src/widgets/entire_shell.dart';
 import 'package:flutter/material.dart';
 
 enum CoachMakerControl { none, next, close }
@@ -70,7 +70,7 @@ class CogTooltip {
 
   OverlayEntry buildOverlay() {
     return OverlayEntry(builder: (context) {
-      return WidgetMain(
+      return EntireShell(
         x: x,
         y: y,
         h: h,
