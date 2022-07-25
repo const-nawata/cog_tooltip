@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:cog_tooltip/cog_tooltip.dart';
-import 'package:cog_tooltip/src/widgets/widget_card.dart';
+import 'package:cog_tooltip/src/widgets/tooltip_body.dart';
 import 'package:flutter/material.dart';
 
 class WidgetMain extends StatefulWidget {
@@ -162,7 +162,7 @@ class WidgetMainState extends State<WidgetMain> {
             ],
           ),
         ),
-        WidgetCard(
+        TooltipBody(
           duration: _duration,
           x: x,
           y: y,

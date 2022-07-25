@@ -1,7 +1,7 @@
 import 'package:cog_tooltip/cog_tooltip.dart';
 import 'package:flutter/material.dart';
 
-class WidgetCard extends StatefulWidget {
+class TooltipBody extends StatefulWidget {
   final double x, y, h, w;
   final bool enable;
   final Widget? child;
@@ -15,7 +15,7 @@ class WidgetCard extends StatefulWidget {
   final int titleColor;
   final int subTitleColor;
 
-  const WidgetCard({
+  const TooltipBody({
     Key? key,
     required this.enable,
     required this.x,
@@ -35,10 +35,10 @@ class WidgetCard extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  WidgetCardState createState() => WidgetCardState();
+  TooltipBodyState createState() => TooltipBodyState();
 }
 
-class WidgetCardState extends State<WidgetCard> {
+class TooltipBodyState extends State<TooltipBody> {
   double top = 0;
   double h = 0;
   double w = 0;
