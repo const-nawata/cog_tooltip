@@ -1,22 +1,17 @@
 import 'dart:async';
-import 'package:cog_tooltip/cog_tooltip.dart';
-import 'package:cog_tooltip/src/widgets/tooltip_body.dart';
+import 'package:cog_tooltip/components/tooltip_info.dart';
+import 'package:cog_tooltip/components/tooltip_style.dart';
+import 'package:cog_tooltip/widgets/tooltip_body.dart';
 import 'package:flutter/material.dart';
 
 class EntireShell extends StatefulWidget {
   final double x, y, h, w, padding, borderRadius;
-  final CoachModel model;
-  final CoachButtonOptions? buttonOptions;
+  final TooltipInfo info;
+  final TooltipStyle? style;
   final Duration? duration;
-
-  // final Function()? onSkip;
-  final Function()? onTapNext;
+  final Function() onTapClose;
   final Function()? onTapSpecified;
   final Color veilColor;
-  final double cogPosition;
-  final double lrShift;
-  final int titleColor;
-  final int subTitleColor;
 
   const EntireShell({
     Key? key,
@@ -27,16 +22,11 @@ class EntireShell extends StatefulWidget {
     this.padding = 0.0,
     this.borderRadius = 0.0,
     this.duration,
-    // this.onSkip,
-    this.onTapNext,
+    required this.onTapClose,
     this.onTapSpecified,
-    this.buttonOptions,
-    required this.model,
+    required this.info,
+    this.style,
     this.veilColor = const Color(0xAA000000),
-    this.cogPosition = 0.0,
-    this.lrShift = 0.0,
-    this.titleColor = 0xFF000000,
-    this.subTitleColor = 0xFF000000,
   }) : super(key: key);
 
   @override
@@ -45,10 +35,10 @@ class EntireShell extends StatefulWidget {
 
 class EntireShellState extends State<EntireShell> {
   bool enable = false;
-  double h = 0;
-  double w = 0;
-  double x = 0;
-  double y = 0;
+  double h = 0.0;
+  double w = 0.0;
+  double x = 0.0;
+  double y = 0.0;
   Timer? timer;
 
   @override
@@ -111,10 +101,7 @@ class EntireShellState extends State<EntireShell> {
       fit: StackFit.expand,
       children: [
         ColorFiltered(
-          colorFilter: ColorFilter.mode(
-            widget.veilColor,
-            BlendMode.srcOut,
-          ),
+          colorFilter: ColorFilter.mode(widget.veilColor, BlendMode.srcOut),
           child: Stack(
             fit: StackFit.expand,
             children: [
@@ -132,8 +119,8 @@ class EntireShellState extends State<EntireShell> {
               AnimatedPositioned(
                 left: x,
                 top: y,
-                height: h == 0 ? MediaQuery.of(context).size.height : h,
-                width: w == 0 ? MediaQuery.of(context).size.width : w,
+                height: h == 0.0 ? MediaQuery.of(context).size.height : h,
+                width: w == 0.0 ? MediaQuery.of(context).size.width : w,
                 duration: _duration,
                 curve: Curves.fastOutSlowIn,
                 child: GestureDetector(
@@ -169,16 +156,9 @@ class EntireShellState extends State<EntireShell> {
           h: h,
           w: w,
           enable: enable,
-          model: widget.model,
-          buttonOptions: widget.buttonOptions,
-          cogPosition: widget.cogPosition,
-          lrShift: widget.lrShift,
-          titleColor: widget.titleColor,
-          subTitleColor: widget.subTitleColor,
-          onSkip: () async {
-            await _closeTooltip();
-          },
-          onTapNext: () async {
+          info: widget.info,
+          style: widget.style,
+          onTapClose: () async {
             await _closeTooltip();
           },
         )
@@ -199,12 +179,12 @@ class EntireShellState extends State<EntireShell> {
       setState(() {
         h = MediaQuery.of(context).size.height;
         w = MediaQuery.of(context).size.width;
-        x = 0;
-        y = 0;
+        x = 0.0;
+        y = 0.0;
       });
-      await Future.delayed(_duration);
 
-      widget.onTapNext!();
+      await Future.delayed(_duration);
+      widget.onTapClose();
     }
   }
 }

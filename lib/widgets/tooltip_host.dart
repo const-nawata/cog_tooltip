@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 
-class TooltipPointer extends StatelessWidget {
+class TooltipHost extends StatelessWidget {
   final String initial;
   final Widget child;
-  const TooltipPointer({
-    Key? key,
-    required this.initial,
-    required this.child,
-  }) : super(key: key);
+  const TooltipHost({Key? key, required this.initial, required this.child})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
