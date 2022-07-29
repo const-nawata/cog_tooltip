@@ -1,5 +1,6 @@
 export 'package:cog_tooltip/widgets/tooltip_host.dart';
 export 'package:cog_tooltip/components/tooltip_info.dart';
+export 'package:cog_tooltip/components/tooltip_style.dart';
 import 'package:cog_tooltip/components/tooltip_info.dart';
 import 'package:cog_tooltip/components/tooltip_style.dart';
 import 'package:cog_tooltip/widgets/entire_shell.dart';
